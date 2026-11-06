@@ -53,6 +53,9 @@ Click **Reset Demo** to return to the welcome screen.
 ## Project Structure
 
 ```
+apps/
+└── mobile/                # Expo / React Native iOS-first MVP
+
 src/
 ├── app/
 │   ├── page.tsx          # Main app with screen router
@@ -81,6 +84,12 @@ src/
     ├── data.ts            # Seed data, challenge templates, consequence cards
     └── store.ts           # Zustand store with demo state management
 ```
+
+## iOS Mobile MVP
+
+The first native mobile build lives in `apps/mobile`. It includes local-first versions of registration, Circles, Pact creation, daily check-ins, leaderboards, results, consequence evidence, voting, local reminders, weekly recaps, renewal, and demo mode.
+
+See `apps/mobile/README.md` for physical iPhone setup and validation commands.
 
 ## All Money Movement Is Simulated
 

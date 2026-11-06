@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "PACT",
+    "slug": "pact-mobile",
+    "scheme": "pact",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.yuge225.pact",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "PACT uses your photo library when you attach evidence to a consequence submission.",
+        "NSCameraUsageDescription": "PACT uses your camera when you capture evidence for a consequence submission."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow PACT to select a photo as consequence evidence.",
+          "cameraPermission": "Allow PACT to take a photo as consequence evidence."
+        }
+      ],
+      "expo-notifications"
+    ]
+  }
+}
