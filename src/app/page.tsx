@@ -1,69 +1,113 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useAppStore } from '@/lib/store';
+import { PhoneFrame } from '@/components/pact/PhoneFrame';
+import { DemoPanel } from '@/components/pact/DemoPanel';
+import { useEffect } from 'react';
+import { DemoState } from '@/lib/types';
+import { WelcomeScreen } from '@/components/pact/WelcomeScreen';
+import { OnboardingScreen } from '@/components/pact/OnboardingScreen';
+import { HomeScreen } from '@/components/pact/HomeScreen';
+import { DiscoverScreen, DurationScreen, CircleScreen, ConsequenceScreen, SavingsScreen, ReviewScreen } from '@/components/pact/CreatePactFlow';
+import { ActivePactScreen } from '@/components/pact/ActivePactScreen';
+import { CheckInScreen } from '@/components/pact/CheckInScreen';
+import { LeaderboardScreen } from '@/components/pact/LeaderboardScreen';
+import { ResultsScreen } from '@/components/pact/ResultsScreen';
+import { ConsequenceAssignScreen, ConsequenceSubmitScreen, ConsequenceVoteScreen, ConsequenceUnresolvedScreen } from '@/components/pact/ConsequenceScreens';
+import { AppTemptationScreen } from '@/components/pact/AppTemptationScreen';
+import { VerificationScreen } from '@/components/pact/VerificationScreen';
+import { SavingsProgressScreen } from '@/components/pact/SavingsScreen';
+import { CircleActivityScreen } from '@/components/pact/CircleActivityScreen';
+import { WeeklyRecapScreen } from '@/components/pact/WeeklyRecapScreen';
+import { RenewScreen } from '@/components/pact/RenewScreen';
+
+function ScreenRouter() {
+  const { screen } = useAppStore();
+
+  switch (screen) {
+    case 'welcome':
+      return <WelcomeScreen />;
+    case 'onboarding':
+    case 'onboarding-goal':
+    case 'onboarding-account':
+    case 'onboarding-bank':
+      return <OnboardingScreen />;
+    case 'home':
+      return <HomeScreen />;
+    case 'discover':
+      return <DiscoverScreen />;
+    case 'create-duration':
+      return <DurationScreen />;
+    case 'create-circle':
+      return <CircleScreen />;
+    case 'create-consequence':
+      return <ConsequenceScreen />;
+    case 'create-savings':
+      return <SavingsScreen />;
+    case 'create-review':
+      return <ReviewScreen />;
+    case 'active-pact':
+      return <ActivePactScreen />;
+    case 'check-in':
+      return <CheckInScreen />;
+    case 'leaderboard':
+      return <LeaderboardScreen />;
+    case 'results':
+      return <ResultsScreen />;
+    case 'celebration':
+    case 'champion':
+      return <ResultsScreen />;
+    case 'consequence-assign':
+      return <ConsequenceAssignScreen />;
+    case 'consequence-submit':
+      return <ConsequenceSubmitScreen />;
+    case 'consequence-vote':
+      return <ConsequenceVoteScreen />;
+    case 'consequence-unresolved':
+      return <ConsequenceUnresolvedScreen />;
+    case 'app-temptation':
+      return <AppTemptationScreen />;
+    case 'verification':
+      return <VerificationScreen />;
+    case 'savings-progress':
+      return <SavingsProgressScreen />;
+    case 'circle-activity':
+      return <CircleActivityScreen />;
+    case 'weekly-recap':
+      return <WeeklyRecapScreen />;
+    case 'renew':
+      return <RenewScreen />;
+    default:
+      return <WelcomeScreen />;
+  }
+}
+
+const VALID_DEMO_STATES: Set<string> = new Set([
+  'welcome','onboarding','home','create_pact','active_pact','app_temptation',
+  'check_in','verification_pending','successful_day','missed_day',
+  'everyone_succeeds','two_tied_last','unique_last','everyone_tied_below',
+  'consequence_submitted','consequence_verified','consequence_unresolved',
+  'weekly_recap','renew_pact','savings_progress',
+]);
+
+export default function PactApp() {
+  const { applyDemoScenario, setShowDemoPanel } = useAppStore();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const demo = params.get('demo');
+    if (demo && VALID_DEMO_STATES.has(demo)) {
+      applyDemoScenario(demo as DemoState);
+      setShowDemoPanel(false);
+    }
+  }, []);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <PhoneFrame>
+        <ScreenRouter />
+      </PhoneFrame>
+      <DemoPanel />
+    </>
   );
 }
