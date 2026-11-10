@@ -36,8 +36,7 @@
           "photosPermission": "Allow PACT to select a photo as consequence evidence.",
           "cameraPermission": "Allow PACT to take a photo as consequence evidence."
         }
-      ],
-      "expo-notifications"
+      ]
     ]
   }
 }
